@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA | Intelligent Knowledge Assistant</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0b1020, #111936, #171044);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 1050px;
+            height: 680px;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            background: rgba(10, 15, 35, 0.92);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            padding: 28px 22px;
+            background: rgba(255, 255, 255, 0.035);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #7c5cff, #b14cff);
+            font-size: 24px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        .logo p {
+            font-size: 11px;
+            color: #8e98b8;
+            margin-top: 3px;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 14px;
+            background: rgba(43, 214, 139, 0.08);
+            border: 1px solid rgba(43, 214, 139, 0.18);
+            margin-bottom: 28px;
+        }
+
+        .status-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #32d68b;
+            box-shadow: 0 0 10px #32d68b;
+        }
+
+        .status p {
+            color: #8994b4;
+            font-size: 11px;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        .sidebar h3 {
+            font-size: 12px;
+            color: #737d9d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .topic {
+            padding: 11px 13px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            color: #b9c1d9;
+            background: rgba(255, 255, 255, 0.035);
+            font-size: 13px;
+        }
+
+        /* Chat area */
+        .chat {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 23px 28px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .chat-header h2 {
+            font-size: 18px;
+        }
+
+        .chat-header p {
+            color: #808baa;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 28px;
+            overflow-y: auto;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .welcome-icon {
+            font-size: 45px;
+            margin-bottom: 18px;
+        }
+
+        .welcome h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: #8791ad;
+            max-width: 470px;
+            margin: auto;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 14px 17px;
+            margin-bottom: 16px;
+            border-radius: 15px;
+            line-height: 1.55;
+            font-size: 14px;
+        }
+
+        .user {
+            margin-left: auto;
+            background: linear-gradient(135deg, #6c4cff, #8955e8);
+        }
+
+        .bot {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #dbe1f2;
+        }
+
+        .input-area {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 7px 8px 7px 17px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: white;
+            font-size: 14px;
+        }
+
+        .input-box input::placeholder {
+            color: #707a99;
+        }
+
+        .send-btn {
+            width: 43px;
+            height: 43px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7655ff, #a04de8);
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            color: #5f6885;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                display: none;
+            }
+
+            .app {
+                height: 90vh;
+            }
+
+            body {
+                padding: 12px;
+            }
+
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                <div class="logo-icon">✦</div>
+                <div>
+                    <h1>NOVA</h1>
+                    <p>INTELLIGENT KNOWLEDGE ASSISTANT</p>
+                </div>
+            </div>
+
+            <div class="status">
+                <div class="status-title">
+                    <span class="dot"></span>
+                    System Online
+                </div>
+                <p>NOVA knowledge engine is ready to answer your questions.</p>
+            </div>
+
+            <h3>Knowledge Domains</h3>
+
+            <div class="topic">🐍 Python</div>
+            <div class="topic">🌐 Flask</div>
+            <div class="topic">☁️ Cloud Computing</div>
+            <div class="topic">💻 GitHub</div>
+            <div class="topic">🤖 General Knowledge</div>
+
+        </aside>
+
+        <main class="chat">
+
+            <header class="chat-header">
+                <h2>NOVA Knowledge Console</h2>
+                <p>Ask a question and receive an instant knowledge-based response.</p>
+            </header>
+
+            <section class="messages" id="messages">
+
+                <div class="welcome" id="welcome">
+                    <div class="welcome-icon">🤖</div>
+                    <h2>Welcome to NOVA</h2>
+                    <p>
+                        Your intelligent knowledge assistant for quick,
+                        reliable answers from a curated knowledge base.
+                    </p>
+                </div>
+
+            </section>
+
+            <div class="input-area">
+
+                <form id="chatForm">
+
+                    <div class="input-box">
+
+                        <input type="text" id="messageInput" placeholder="Ask NOVA something..." autocomplete="off"
+                            required>
+
+                        <button class="send-btn" type="submit">
+                            ➤
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <div class="footer">
+                    NOVA • Intelligent Knowledge Assistant
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        const form = document.getElementById("chatForm");
+        const input = document.getElementById("messageInput");
+        const messages = document.getElementById("messages");
+        const welcome = document.getElementById("welcome");
+
+        form.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            const message = input.value.trim();
+
+            if (!message) {
+                return;
+            }
+
+            if (welcome) {
+                welcome.remove();
+            }
+
+            const userMessage = document.createElement("div");
+            userMessage.className = "message user";
+            userMessage.textContent = message;
+
+            messages.appendChild(userMessage);
+
+            input.value = "";
+
+            const botMessage = document.createElement("div");
+            botMessage.className = "message bot";
+            botMessage.textContent = "NOVA is thinking...";
+
+            messages.appendChild(botMessage);
+
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+
+                botMessage.textContent = data.response;
+
+            } catch (error) {
+
+                botMessage.textContent =
+                    "Sorry, NOVA could not connect to the knowledge engine.";
+
+            }
+
+            messages.scrollTop = messages.scrollHeight;
+
+        });
+
+    </script>
+
+</body>
+
+</html>
